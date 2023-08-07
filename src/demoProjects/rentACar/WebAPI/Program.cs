@@ -1,4 +1,5 @@
-
+using Application;
+using Core.CrossCuttingConcerns.Exceptions;
 using Persistence;
 namespace WebAPI
 {
@@ -11,7 +12,7 @@ namespace WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
-            //builder.Services.AddApplicationServices();
+            builder.Services.AddApplicationServices();
             //builder.Services.AddSecurityServices();
             builder.Services.AddPersistenceServices(builder.Configuration);
             //builder.Services.AddInfrastructureServices();
@@ -30,6 +31,13 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            if(app.Environment.IsProduction())
+            {
+                app.ConfigureCustomExceptionMiddleware(); //middleware ? ama calismiyor
+
+            }
+
 
             app.UseAuthorization();
 
