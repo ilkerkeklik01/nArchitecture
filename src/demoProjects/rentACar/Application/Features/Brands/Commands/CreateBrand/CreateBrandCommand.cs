@@ -3,6 +3,7 @@ using Application.Features.Brands.Rules;
 using Application.Features.Repositories;
 using AutoMapper;
 using Domain.Entities;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,23 +20,22 @@ namespace Application.Features.Brands.Commands.CreateBrand
 
         public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, CreatedBrandDto>
         {
-            private readonly BrandBusinessRules _rules;
+            private readonly BrandBusinessRules _brandBusinessRules;
             private readonly IBrandRepository _repository;
             private readonly IMapper _mapper;
             public CreateBrandCommandHandler(IBrandRepository repository,IMapper mapper, BrandBusinessRules rules)
             {
                 _repository = repository;
                 _mapper = mapper;
-                _rules = rules;
+                _brandBusinessRules = rules;
 
             }
 
             public async Task<CreatedBrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
             {
+                //Validation is working on application service registrication cs file
                 //business rules will be here
-                await _rules.BrandNameCannotBeDuplicatedWhenInserted(request.Name);
-
-
+                await _brandBusinessRules.BrandNameCannotBeDuplicatedWhenInserted(request.Name);
 
                 Brand mappedBrand = _mapper.Map<Brand>(request);
                 Brand createdBrand = await _repository.AddAsync(mappedBrand);
