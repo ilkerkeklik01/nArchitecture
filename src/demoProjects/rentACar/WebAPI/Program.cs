@@ -1,5 +1,7 @@
+using System.Reflection;
 using Application;
 using Core.CrossCuttingConcerns.Exceptions;
+using FluentValidation;
 using Persistence;
 namespace WebAPI
 {
@@ -19,6 +21,7 @@ namespace WebAPI
             //builder.Services.AddHttpContextAccessor();
 
 
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -32,8 +35,7 @@ namespace WebAPI
                 app.UseSwaggerUI();
             }
 
-
-          //      if(app.Environment.IsProduction())
+            if(app.Environment.IsProduction())
                 app.ConfigureCustomExceptionMiddleware(); //middleware ? ama calismiyor
 
             
