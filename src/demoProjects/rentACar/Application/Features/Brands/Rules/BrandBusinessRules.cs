@@ -31,14 +31,13 @@ namespace Application.Features.Brands.Rules
             };
         }
 
-        public async Task BrandMustExistsWhenRequested(int id)
+        public void BrandMustExistsWhenRequested(Brand brand)
         {
-            Brand? brand = await _repository.GetAsync(x => x.Id == id);
 
-            if (brand == null) throw new BusinessException("Requested Brand does not exist");
+            if (brand == null) 
+                throw new BusinessException("Requested Brand does not exist");
 
         }
-
 
     }
 }
